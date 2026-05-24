@@ -1,3 +1,8 @@
+import { useState, useEffect } from "react";
+import { fetchProducts, fetchBrands } from "../api/scoreboardApi";
+import RadarChart    from "../components/RadarChart";
+import ScoreCard     from "../components/ScoreCard";
+import SentencePanel from "../components/SentencePanel";
 
 function InfoBanner() {
   const [open, setOpen] = useState(false);
@@ -67,12 +72,6 @@ function InfoBanner() {
   );
 }
 
-import { useState, useEffect } from "react";
-import { fetchProducts, fetchBrands } from "../api/scoreboardApi";
-import RadarChart   from "../components/RadarChart";
-import ScoreCard    from "../components/ScoreCard";
-import SentencePanel from "../components/SentencePanel";
-
 const CATEGORIES = ["comfort", "design", "size", "durability", "price"];
 
 const BRAND_COLORS = {
@@ -98,6 +97,8 @@ export default function ScoreboardPage() {
 
   // 상품 목록 로드
   useEffect(() => {
+    setSelectedProduct(null);
+    setSelectedCat(null);
     setLoading(true);
     fetchProducts({
       brand:  selectedBrand || null,
@@ -115,7 +116,7 @@ export default function ScoreboardPage() {
   };
 
   return (
-    <div style={{ minHeight:"100vh", background:"#f8fafc", fontFamily:"'Pretendard', sans-serif" }}>
+    <div style={{ height:"100vh", display:"flex", flexDirection:"column", background:"#f8fafc", fontFamily:"'Pretendard', sans-serif" }}>
 
       {/* 헤더 */}
       <header style={{
@@ -150,7 +151,7 @@ export default function ScoreboardPage() {
       {/* 점수 계산 방식 안내 */}
       <InfoBanner />
 
-      <div style={{ display:"flex", height:"calc(100vh - 64px)" }}>
+      <div style={{ display:"flex", flex:1, minHeight:0 }}>
 
         {/* 왼쪽 사이드바: 상품 목록 */}
         <aside style={{
@@ -203,7 +204,7 @@ export default function ScoreboardPage() {
                 <div style={{ fontSize:12, color:"#9ca3af", marginBottom:2 }}>
                   <span style={{
                     background:   BRAND_COLORS[p.brand] || "#e5e7eb",
-                    color:        p.brand === "adidas" || p.brand === "ASICS" ? "#fff" : "#fff",
+                    color:        "#fff",
                     padding:      "1px 8px",
                     borderRadius: 99,
                     fontSize:     11,

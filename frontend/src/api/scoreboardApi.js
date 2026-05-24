@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:8000/api";
+const BASE_URL = "/api";
 
 // 전체 상품 목록 조회
 export async function fetchProducts({ brand = null, search = null } = {}) {

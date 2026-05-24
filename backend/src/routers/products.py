@@ -10,11 +10,17 @@ router = APIRouter()
 
 DATA_PATH = Path(__file__).parent.parent.parent / "data" / "llm_scores_by_product.json"
 
+_cache: dict = {}
+
 def load_scores() -> dict:
+    global _cache
+    if _cache:
+        return _cache
     if not DATA_PATH.exists():
         raise HTTPException(status_code=404, detail="scores 파일이 없습니다.")
     with open(DATA_PATH, "r", encoding="utf-8") as f:
-        return json.load(f)
+        _cache = json.load(f)
+    return _cache
 
 CATEGORIES = ["comfort", "design", "size", "durability", "price"]
 
